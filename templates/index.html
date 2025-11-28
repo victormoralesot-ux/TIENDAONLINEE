@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Listado de Insumos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <div class="container py-5">
+
+        <h1 class="text-center mb-4 fw-bold">Listado de Insumos</h1>
+
+        {% if insumos %}
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table">
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Cantidad disponible</th>
+                            <th>Marca</th>
+                            <th>Color</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for insumo in insumos %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ insumo.nombre }}</td>
+                            <td>{{ insumo.cantidad_disponible }}</td>
+                            <td>{{ insumo.marca }}</td>
+                            <td>{{ insumo.color }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="alert alert-danger text-center fw-semibold shadow-sm" role="alert">
+            No hay insumos registrados
+        </div>
+        {% endif %}
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

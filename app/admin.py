@@ -1,17 +1,21 @@
 from django.contrib import admin
-from .models import producto
-from .models import categoria
-from .models import insumo
-
-# Register your models here.
+from .models import Producto, Categoria, Insumo
 
 
-@admin.register(producto)
-class RifaAdmin(admin.ModelAdmin):
+@admin.register(Producto)
+class ProductoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion', 'categoria', 'precio_base', 'imagenes')
-    prepopulated_fields = {'slug': ('nombre',)}
     search_fields = ('nombre', 'descripcion')
 
-@admin.register(categoria)
-class RifaAdmin(admin.ModelAdmin):
+
+@admin.register(Categoria)
+class CategoriaAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion')
+    search_fields = ('nombre',)
+
+
+@admin.register(Insumo)
+class InsumoAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'slug', 'cantidad_disponible', 'unidad', 'marca', 'color')
+    prepopulated_fields = {'slug': ('nombre',)}
+    search_fields = ('nombre', 'marca', 'color')
