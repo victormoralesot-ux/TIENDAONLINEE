@@ -53,7 +53,8 @@
                 <div class="card-body">
                     <h5 class="card-title fw-bold">{{ producto.nombre }}</h5>
 
-                    <a href="/hola/" class="btn btn-primary">Vista de Detalle del Producto</a>
+                    <a href="/producto/{{ producto.id }}/" class="btn btn-primary">Vista de Detalle del Producto</a>
+
 
 
 
@@ -66,6 +67,8 @@
         </div>
         {% endfor %}
     </div>
+
+    <a button href="/producto/nuevo" class="btn btn-success mt-3">Agregar Nuevo Producto</a>
 
     {% else %}
     <div class="alert alert-danger text-center fw-semibold shadow-sm" role="alert">
