@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Producto, Categoria, Insumo
+from .models import Producto, Categoria, Insumo , Pedido
 
 
 @admin.register(Producto)
@@ -19,3 +19,8 @@ class InsumoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'slug', 'cantidad_disponible', 'unidad', 'marca', 'color')
     prepopulated_fields = {'slug': ('nombre',)}
     search_fields = ('nombre', 'marca', 'color')
+
+@admin.register(Pedido)
+class PedidoAdmin(admin.ModelAdmin):
+    list_display = ('nombre_cliente', 'email', 'telefono', 'red_social', 'producto_referencia', 'plataforma', 'fecha_necesita')
+    search_fields = ('nombre_cliente', 'email', 'telefono', 'red_social', 'producto_referencia__nombre', 'plataforma')

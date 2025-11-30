@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+import uuid
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
@@ -33,3 +35,38 @@ class Insumo(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+
+
+
+
+class Pedido(models.Model):
+    nombre_cliente = models.CharField(max_length=100)
+    email = models.EmailField(blank=True, null=True)
+    telefono = models.CharField(max_length=30, blank=True, null=True)
+    red_social = models.CharField(max_length=100, blank=True, null=True)
+
+    producto_referencia = models.ForeignKey(
+        Producto, on_delete=models.SET_NULL, null=True, blank=True
+    )
+
+    imagenes_referencia = models.ImageField(upload_to="pedidos/", blank=True, null=True)
+
+    descripcion = models.TextField()
+
+    plataforma = models.CharField(default="pagina web", max_length=50)
+
+    fecha_necesita = models.DateField(blank=True, null=True)
+
+    token_seguimiento = models.CharField(max_length=100, unique=True, blank=True)
+
+    creado = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.token_seguimiento:
+            self.token_seguimiento = uuid.uuid4().hex
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Pedido de {self.nombre_cliente}"
+
