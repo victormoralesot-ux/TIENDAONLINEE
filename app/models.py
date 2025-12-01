@@ -53,6 +53,8 @@ class Pedido(models.Model):
     email = models.EmailField(blank=True, null=True)
     telefono = models.CharField(max_length=30, blank=True, null=True)
     red_social = models.CharField(max_length=100, blank=True, null=True)
+    estado = models.CharField(max_length=20, choices=ESTADO_PEDIDO, default='Solicitado')
+    pago = models.CharField(max_length=20, choices=ESTADO_PAGO, default='Pendiente')
 
     producto_referencia = models.ForeignKey(
         Producto, on_delete=models.SET_NULL, null=True, blank=True

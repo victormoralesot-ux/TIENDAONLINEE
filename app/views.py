@@ -39,7 +39,7 @@ def agregar_formulario(request):
     form = Formpedido()
     
     if request.method == 'POST':
-        form = Formpedido(request.POST)
+        form = Formpedido(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return ver_pedidos(request)
