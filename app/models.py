@@ -35,12 +35,20 @@ class Insumo(models.Model):
 
     def __str__(self):
         return self.nombre
-    
-
-
 
 
 class Pedido(models.Model):
+    ESTADO_PEDIDO = [
+        ('Solicitado', 'Solicitado'),
+        ('En proceso', 'En proceso'),
+        ('Finalizado', 'Finalizado'),
+    ]
+
+    ESTADO_PAGO = [
+        ('Pendiente', 'Pendiente'),
+        ('Pagado', 'Pagado'),
+    ]
+
     nombre_cliente = models.CharField(max_length=100)
     email = models.EmailField(blank=True, null=True)
     telefono = models.CharField(max_length=30, blank=True, null=True)
@@ -49,17 +57,13 @@ class Pedido(models.Model):
     producto_referencia = models.ForeignKey(
         Producto, on_delete=models.SET_NULL, null=True, blank=True
     )
-
     imagenes_referencia = models.ImageField(upload_to="pedidos/", blank=True, null=True)
 
     descripcion = models.TextField()
-
     plataforma = models.CharField(default="pagina web", max_length=50)
-
     fecha_necesita = models.DateField(blank=True, null=True)
 
     token_seguimiento = models.CharField(max_length=100, unique=True, blank=True)
-
     creado = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
@@ -69,4 +73,3 @@ class Pedido(models.Model):
 
     def __str__(self):
         return f"Pedido de {self.nombre_cliente}"
-

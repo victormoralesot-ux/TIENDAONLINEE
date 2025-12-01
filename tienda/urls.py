@@ -9,4 +9,9 @@ urlpatterns = [
     path('', views.index),
     path('producto/<int:producto_id>/', views.producto_detalle),
     path('producto/nuevo', views.agregar_producto),
+    path('formulario', views.agregar_formulario),
+    path('pedidos', views.ver_pedidos),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
