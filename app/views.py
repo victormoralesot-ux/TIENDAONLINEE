@@ -4,18 +4,25 @@ from app.forms import Formproducto,Formpedido
 
 def index(request):
     buscar = request.GET.get("buscar", "")
+    precio_base = request.GET.get("precio_base", "")   
     categoria_id = request.GET.get("categoria", "")
+
     productos = Producto.objects.all()
     categorias = Categoria.objects.all()
+
     if buscar:
         productos = productos.filter(nombre__icontains=buscar)
+
     if categoria_id:
         productos = productos.filter(categoria_id=categoria_id)
+
+    if precio_base:
+        productos = productos.filter(precio_base__lte=precio_base)  
 
     data = {
         'productos': productos,
         'categorias': categorias,
-        'request': request   
+        'request': request
     }
 
     return render(request, 'index.html', data)
