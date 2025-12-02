@@ -11,6 +11,8 @@ urlpatterns = [
     path('producto/nuevo', views.agregar_producto),
     path('formulario', views.agregar_formulario),
     path('pedidos', views.ver_pedidos),
+    path("seguimiento/<str:token>/", views.seguimiento_pedido, name="seguimiento_pedido"),
+
 ]
 
 if settings.DEBUG:

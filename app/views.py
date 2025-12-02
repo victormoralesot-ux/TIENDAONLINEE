@@ -58,3 +58,7 @@ def ver_pedidos(request):
     data = {'pedidos': pedidos}
     return render(request, 'verpedidos.html', data)
 
+def seguimiento_pedido(request, token):
+    pedido = get_object_or_404(Pedido, token_seguimiento=token)
+    return render(request, "seguimiento.html", {"pedido": pedido})
+

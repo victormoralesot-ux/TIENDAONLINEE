@@ -1,0 +1,5 @@
+pip install django
+pip install pillow
+
+Python managa.py run server=para acceder
+http://127.0.0.1:8000/=en el navegador

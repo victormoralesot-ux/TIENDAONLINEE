@@ -83,6 +83,7 @@ class Pedido(models.Model):
 
     token_seguimiento = models.CharField(max_length=100, unique=True, blank=True)
     creado = models.DateTimeField(auto_now_add=True)
+    
 
     def save(self, *args, **kwargs):
         if not self.token_seguimiento:
