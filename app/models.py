@@ -11,11 +11,13 @@ class Categoria(models.Model):
 
 
 class Producto(models.Model):
+    
+    destacado = models.BooleanField(default=False)
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name="productos")
     precio_base = models.PositiveIntegerField()
-    imagenes = models.ImageField(upload_to='productos/', null=True, blank=True)
+    destacado = models.BooleanField(default=False) 
 
     imagen_1 = models.ImageField(upload_to='productos/', null=True, blank=True)
     imagen_2 = models.ImageField(upload_to='productos/', null=True, blank=True)
@@ -40,19 +42,33 @@ class Insumo(models.Model):
 class Pedido(models.Model):
     ESTADO_PEDIDO = [
         ('Solicitado', 'Solicitado'),
+        ('Aprobado', 'Aprobado'),
         ('En proceso', 'En proceso'),
+        ('Realizada', 'Realizada'),
+        ('Entregada', 'Entregada'),
         ('Finalizado', 'Finalizado'),
+        ('Cancelada', 'Cancelada'),
     ]
 
     ESTADO_PAGO = [
         ('Pendiente', 'Pendiente'),
+        ('Parcial', 'Parcial'),
         ('Pagado', 'Pagado'),
+    ]
+    
+    ESTADO_SOCIAL = [
+        ('Facebook', 'Facebook'),
+        ('Instagram', 'Instagram'),
+        ('WhatsApp', 'WhatsApp'),
+        ('TikTok', 'TikTok'),
+        ('Presencial', 'Presencial'),
+        ('Sitio Web', 'Sitio Web'),
     ]
 
     nombre_cliente = models.CharField(max_length=100)
     email = models.EmailField(blank=True, null=True)
     telefono = models.CharField(max_length=30, blank=True, null=True)
-    red_social = models.CharField(max_length=100, blank=True, null=True)
+    red_social = models.CharField(max_length=20, choices=ESTADO_SOCIAL, default='Sitio Web')
     estado = models.CharField(max_length=20, choices=ESTADO_PEDIDO, default='Solicitado')
     pago = models.CharField(max_length=20, choices=ESTADO_PAGO, default='Pendiente')
 

@@ -41,10 +41,31 @@
     <div class="row">
         {% for producto in productos %}
         <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100">
+            <div class="card shadow-sm h-100 position-relative">
 
-                {% if producto.imagenes %}
-                    <img src="{{ producto.imagenes.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                {% if producto.destacado %}
+                <div class="position-absolute top-0 end-0 m-2 badge bg-warning text-dark">
+                    Destacado
+                </div>
+                {% endif %}
+
+                {% if producto.imagen_1 or producto.imagen_2 or producto.imagen_3 %}
+
+                    {% if producto.imagen_1 %}
+                        <img src="{{ producto.imagen_1.url }}" class="card-img-top"
+                             style="height: 200px; object-fit: cover;">
+                    {% endif %}
+
+                    {% if producto.imagen_2 %}
+                        <img src="{{ producto.imagen_2.url }}" class="card-img-top"
+                             style="height: 200px; object-fit: cover;">
+                    {% endif %}
+
+                    {% if producto.imagen_3 %}
+                        <img src="{{ producto.imagen_3.url }}" class="card-img-top"
+                             style="height: 200px; object-fit: cover;">
+                    {% endif %}
+
                 {% else %}
                     <img src="https://via.placeholder.com/300x200?text=Sin+Imagen"
                          class="card-img-top" style="height: 200px; object-fit: cover;">
@@ -53,23 +74,22 @@
                 <div class="card-body">
                     <h5 class="card-title fw-bold">{{ producto.nombre }}</h5>
 
-                    <a href="/producto/{{ producto.id }}/" class="btn btn-primary">Vista de Detalle del Producto</a>
-
-
-
+                    <a href="/producto/{{ producto.id }}/" class="btn btn-primary mb-2">
+                        Vista de Detalle del Producto
+                    </a>
 
                     <p class="text-muted mb-1">
                         Precio base: <strong>${{ producto.precio_base }}</strong>
                     </p>
-
                 </div>
+
             </div>
         </div>
         {% endfor %}
     </div>
 
-    <a button href="/producto/nuevo" class="btn btn-success mt-3">Agregar Nuevo Producto</a>
-        <a button href="/pedidos" class="btn btn-success mt-3">ver pedidos</a>
+    <a href="/producto/nuevo" class="btn btn-success mt-3">Agregar Nuevo Producto</a>
+    <a href="/pedidos" class="btn btn-success mt-3">Ver pedidos</a>
 
     {% else %}
     <div class="alert alert-danger text-center fw-semibold shadow-sm" role="alert">

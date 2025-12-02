@@ -28,7 +28,7 @@ def agregar_producto(request):
     form = Formproducto()
     
     if request.method == 'POST':
-        form = Formproducto(request.POST)
+        form = Formproducto(request.POST,request.FILES)
         if form.is_valid():
             form.save()
             return index(request)

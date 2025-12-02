@@ -4,7 +4,7 @@ from .models import Producto, Categoria, Insumo , Pedido
 
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'descripcion', 'categoria', 'precio_base', 'imagenes')
+    list_display = ('nombre', 'descripcion', 'categoria', 'precio_base', 'imagen_1', 'imagen_2', 'imagen_3','destacado')
     search_fields = ('nombre', 'descripcion')
 
 
