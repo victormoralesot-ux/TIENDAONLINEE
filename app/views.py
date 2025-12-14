@@ -1,6 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from .models import Producto, Categoria, Pedido
 from app.forms import Formproducto,Formpedido
+from django.http import JsonResponse
 
 def index(request):
     buscar = request.GET.get("buscar", "")
@@ -62,3 +63,6 @@ def seguimiento_pedido(request, token):
     pedido = get_object_or_404(Pedido, token_seguimiento=token)
     return render(request, "seguimiento.html", {"pedido": pedido})
 
+def api_productos(request):
+    api ={'id':1,'nombre':'Producto','precio_base':100}
+    return JsonResponse(api)
