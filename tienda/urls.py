@@ -14,6 +14,8 @@ urlpatterns = [
     path('pedidos', views.ver_pedidos),
     path("seguimiento/<str:token>/", views.seguimiento_pedido, name="seguimiento_pedido"),
     path('api/productos/', views.api_productos),
+    path('api/insumos/', views.insumos_list),
+    path('api/insumos/<int:pk>/', views.insumos_detail),    
 ]
 
 if settings.DEBUG:
