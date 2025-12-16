@@ -11,7 +11,7 @@ from rest_framework import viewsets
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.shortcuts import render
-
+from .serializers import PedidoSerializer
 
 class insumos_list(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
     queryset = Insumo.objects.all()
@@ -22,7 +22,7 @@ class insumos_list(mixins.ListModelMixin,mixins.CreateModelMixin,generics.Generi
     
     def post(self, request):
         return self.create(request)
-    
+
     
 class insumos_detail(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,generics.GenericAPIView):
 
@@ -37,6 +37,59 @@ class insumos_detail(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.De
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+    
+    
+class pedidos_creados(mixins.CreateModelMixin,generics.GenericAPIView):
+    queryset = Pedido.objects.all()
+    serializer_class = PedidoSerializer
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    
+class pedidos_detalle(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,generics.GenericAPIView):
+
+    queryset = Pedido.objects.all()
+    serializer_class = PedidoSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+class pedidos_filtrar(mixins.ListModelMixin,generics.GenericAPIView):
+
+    serializer_class = PedidoSerializer
+
+    def get_queryset(self):
+        queryset = Pedido.objects.all()
+
+        fecha_inicio = self.request.GET.get("fecha_inicio")
+        fecha_fin = self.request.GET.get("fecha_fin")
+        estados = self.request.GET.getlist("estado")
+        limite = self.request.GET.get("limite")
+
+        if fecha_inicio and fecha_fin:
+            queryset = queryset.filter(
+                creado__date__range=[fecha_inicio, fecha_fin]
+            )
+
+        if estados:
+            queryset = queryset.filter(estado__in=estados)
+
+        if limite:
+            queryset = queryset[:int(limite)]
+
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
 
 def index(request):
     buscar = request.GET.get("buscar", "")

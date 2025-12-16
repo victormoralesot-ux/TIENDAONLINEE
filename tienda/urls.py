@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from app.views import api_productos
 from app.views import reporte_pedidos
-
+from app.views import pedidos_creados, pedidos_detalle, pedidos_filtrar
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
@@ -18,6 +18,10 @@ urlpatterns = [
     path('api/insumos/', views.insumos_list.as_view()),
     path('api/insumos/<int:pk>/', views.insumos_detail.as_view()), 
     path("reportes/pedidos/", reporte_pedidos, name="reporte_pedidos"),
+    path('api/pedidos/', pedidos_creados.as_view()),
+    path('api/pedidos/<int:pk>/', pedidos_detalle.as_view()),
+    path('api/pedidos/filtrar/', pedidos_filtrar.as_view())
+
 
 ]
 if settings.DEBUG:
