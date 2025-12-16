@@ -8,6 +8,9 @@
 
 <body class="bg-light">
 
+<a href="/api/insumos/2" class="btn btn-success mt-3">insumo</a>
+
+
 <div class="container py-5">
 
     <h1 class="text-center mb-4 fw-bold">Catálogo de Productos</h1>
@@ -28,6 +31,7 @@
         <div class="col-md-4">
             <select name="categoria" class="form-select">
                 <option value="">Todas las categorías</option>
+
 
                 {% for categoria in categorias %}
                     <option value="{{ categoria.id }}"

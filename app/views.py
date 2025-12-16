@@ -6,6 +6,34 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import InsumoSerializer
 from rest_framework import status
+from rest_framework import mixins, generics
+from rest_framework import viewsets
+
+
+class insumos_list(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+    queryset = Insumo.objects.all()
+    serializer_class = InsumoSerializer
+
+    def get(self, request):
+        return self.list(request)
+    
+    def post(self, request):
+        return self.create(request)
+    
+    
+class insumos_detail(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,generics.GenericAPIView):
+
+    queryset = Insumo.objects.all()
+    serializer_class = InsumoSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 def index(request):
     buscar = request.GET.get("buscar", "")
@@ -75,22 +103,3 @@ def insumos(request):
     insumos = Insumo.objects.all()
     data ={'insumos': list(insumos.values('nombre','cantidad_disponible','unidad','marca','color'))}
     return JsonResponse(data)
-
-@api_view(['GET','POST'])
-def insumos_list(request):
-    if request.method == 'GET':
-        insumos = Insumo.objects.all()
-        ser = InsumoSerializer(insumos, many=True)
-        return Response(ser.data)
-    
-    if request.method == 'POST':
-        ser = InsumoSerializer(data=request.data)
-        if ser.is_valid():
-            ser.save()
-            return Response(ser.data, status=201)
-        return Response(ser.errors, status=400)
-
-
-@api_view(['GET','PUT','DELETE'])
-def insumos_detail(request, pk):
-    pass

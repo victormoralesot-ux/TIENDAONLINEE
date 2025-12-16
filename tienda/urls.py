@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from app import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -14,9 +14,8 @@ urlpatterns = [
     path('pedidos', views.ver_pedidos),
     path("seguimiento/<str:token>/", views.seguimiento_pedido, name="seguimiento_pedido"),
     path('api/productos/', views.api_productos),
-    path('api/insumos/', views.insumos_list),
-    path('api/insumos/<int:pk>/', views.insumos_detail),    
+    path('api/insumos/', views.insumos_list.as_view()),
+    path('api/insumos/<int:pk>/', views.insumos_detail.as_view()),    
 ]
-
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
