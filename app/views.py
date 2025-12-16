@@ -8,6 +8,9 @@ from .serializers import InsumoSerializer
 from rest_framework import status
 from rest_framework import mixins, generics
 from rest_framework import viewsets
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.shortcuts import render
 
 
 class insumos_list(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
@@ -103,3 +106,36 @@ def insumos(request):
     insumos = Insumo.objects.all()
     data ={'insumos': list(insumos.values('nombre','cantidad_disponible','unidad','marca','color'))}
     return JsonResponse(data)
+
+
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.shortcuts import render
+from .models import Pedido
+
+@login_required
+def reporte_pedidos(request):
+    pedidos = Pedido.objects.all()
+
+    
+    fecha_inicio = request.GET.get("fecha_inicio")
+    fecha_fin = request.GET.get("fecha_fin")
+
+    if fecha_inicio and fecha_fin:
+        pedidos = pedidos.filter(creado__date__range=[fecha_inicio, fecha_fin])
+
+    
+    pedidos_por_estado = pedidos.values("estado").annotate(total=Count("id"))
+
+    
+    pedidos_por_plataforma = pedidos.values("red_social").annotate(total=Count("id"))
+
+    context = {
+        "pedidos_por_estado": pedidos_por_estado,
+        "pedidos_por_plataforma": pedidos_por_plataforma,
+        "fecha_inicio": fecha_inicio,
+        "fecha_fin": fecha_fin,
+    }
+
+    return render(request, "reporte_pedidos.html", context)
+
